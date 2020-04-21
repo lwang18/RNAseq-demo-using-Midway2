@@ -1,11 +1,14 @@
 # RNAseq analysis for Homo sapiens
 
 ## Login Midway2
+
+```
 ssh yourID@midway2.rcc.uchicago.edu
 quota
 rcchelp balance
 rcchelp usage --byjob
 module load avail
+```
 
 ## Transfer files: Mac OS X Connect to Server utility
 
@@ -31,8 +34,10 @@ Sign in
 
 ## Establish your PATH -> /home/yourID/local/bin
 
+```
 mkdir ~/local/bin
-
+```
+```
 ## Installations
 module avail 
 module list
@@ -40,16 +45,19 @@ module list
 **Then build your PATH **
 * echo 'export PATH=~/local/bin:$PATH' >> ~/.bashrc
 * source ~/.bashrc
+```
 
 ## Data processing
 
 ### 0. Merge replicate fastq files
 
+```
 cat file*.fastq > bigfile.fastq
 cat file1.fastq file2.fastq > bigfile.fastq
 
 *21
 cat ~/scratch-midway2/fastq_EC-CC1/EC-CC-21_S1_R1_001.fastq.gz ~/scratch-midway2/fastq_EC-CC2/EC-CC-21_S1_R1_001.fastq.gz > ~/scratch-midway2/fastq_EC-CC3/EC-CC-21_S1_R1_001.fastq.gz | cat ~/scratch-midway2/fastq_EC-CC1/EC-CC-21_S1_R2_001.fastq.gz ~/scratch-midway2/fastq_EC-CC2/EC-CC-21_S1_R2_001.fastq.gz > ~/scratch-midway2/fastq_EC-CC3/EC-CC-21_S1_R2_001.fastq.gz 
+```
 
 ### 2. Map RNA-seq reads to a reference genome (STAR)
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4631051/
@@ -57,6 +65,7 @@ https://github.com/hbctraining/Intro-to-rnaseq-hpc-O2/blob/master/lessons/03_ali
 
 #### 2.1: Generate genome indices
 
+```
 *sinteractive --exclusive --partition=broadwl --nodes=2 --time=05:00:00*
 
 **ensembl reference genome **
@@ -86,16 +95,19 @@ STAR --runThreadN 12 \
 --sjdbGTFfile ~/scratch-midway2/RefGenome/Homo_sapiens.GRCh38.99.gtf \
 --sjdbOverhang 99 
 
+```
 
 #### 2.2: Align reads 
 
+```
 *sinteractive --exclusive --partition=broadwl --nodes=2 --time=05:00:00*
 cd ~/scratch-midway2/EC-CC/2.star/star2
 
 mkdir star_EC-CC-All | mkdir star_EC-CC-All01 | mkdir star_EC-CC-All02 | mkdir star_EC-CC-All03 | mkdir star_EC-CC-All04 | mkdir star_EC-CC-All05 | mkdir star_EC-CC-All06 | mkdir star_EC-CC-All07 | mkdir star_EC-CC-All08 |
 *done*
+```
 
-
+```
 STAR --genomeDir ~/scratch-midway2/EC-CC/1.star_index/ensembl  \
 --runThreadN 6 \
 --readFilesIn ~/scratch-midway2/EC-CC/0.fastq/fastq_EC-CC3/EC-CC-21_R1.fastq.gz ~/scratch-midway2/EC-CC/0.fastq/fastq_EC-CC3/EC-CC-21_R2.fastq.gz \
@@ -115,11 +127,12 @@ cat Log.progress.out
 
 cd ~/scratch-midway2/EC-CC/2.star
 cp star_EC-CC-All01/Aligned.sortedByCoord.out.bam star_EC-CC-All/Aligned.sortedByCoord.EC-CC-21.out.bam
-
+```
 
 
 ### 3. Count transcripts 
 
+```
 mkdir ~/scratch-midway2/EC-CC/3.featureCounts/
 
 
@@ -136,7 +149,7 @@ featureCounts -T 4 \
 ~/scratch-midway2/EC-CC/2.star/star_EC-CC-All/*.out.bam
 
 An example of attributes included in your GTF annotation is 'gene_id "ENSG00000223972"; gene_version "5"; transcript_id "ENST00000456328"; transcript_version "2"; exon_number "1"; gene_name "DDX11L1"; gene_source "havana"; gene_biotype "transcribed_unprocessed_pseudogene"; transcript_name "DDX11L1-202"; transcript_source "havana"; transcript_biotype "processed_transcript"; exon_id "ENSE00002234944"; exon_version "1"; tag "basic"; transcript_support_level "1";' 
-
+```
 
 
 ## MultiQC Pipeline
@@ -157,12 +170,16 @@ pip --update multiqc
 
 ### Run
 
+```
 cd ~/"Google Drive"/UC/Projects/scRNAseq_EC-CC/MultiQC
 
 multiqc -n multiqc_report_rnaseq \
 ~/"Google Drive"/UC/Projects/scRNAseq_EC-CC/MultiQC/*zip \
 ~/"Google Drive"/UC/Projects/scRNAseq_EC-CC/MultiQC/*Log.final.out \
 ~/"Google Drive"/UC/Projects/scRNAseq_EC-CC/MultiQC/featureCounts_EC-CC.txt.summary
+```
+
+
 
 
 
