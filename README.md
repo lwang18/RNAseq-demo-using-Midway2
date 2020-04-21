@@ -14,7 +14,7 @@ module load avail
 
 https://rcc.uchicago.edu/docs/data-transfer/index.html
 
-*If you are on campus*
+If you are on campus
 home:            smb://midwaysmb.rcc.uchicago.edu/homes
 project2:        smb://midwaysmb.rcc.uchicago.edu/project2
 scratch/midway:  smb://midwaysmb.rcc.uchicago.edu/midway2-scratch
@@ -22,7 +22,7 @@ scratch/midway:  smb://midwaysmb.rcc.uchicago.edu/midway2-scratch
 ADLOCAL\yourID
 Registered User
 
-*If you are off campus - use Globus*
+If you are off campus - use Globus
 https://rcc.uchicago.edu/docs/data-transfer/index.html#globus-online
 
 https://globus.rcc.uchicago.edu 
