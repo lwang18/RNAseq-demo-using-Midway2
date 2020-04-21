@@ -49,7 +49,7 @@ module list
 
 ## Data processing
 
-### 0. Merge replicate fastq files
+### 1. Merge replicate fastq files
 
 ```
 cat file*.fastq > bigfile.fastq
